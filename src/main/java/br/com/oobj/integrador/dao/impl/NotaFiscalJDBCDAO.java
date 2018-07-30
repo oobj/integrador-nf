@@ -131,8 +131,18 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 
 	@Override
 	public NotaFiscal atualizar(NotaFiscal notaFiscal) {
-		// TODO Auto-generated method stub
-		return null;
+		// criar uma instancia local de NotaFiscal
+		NotaFiscal notaFiscalTemp = null;
+		
+		
+		// definir a query SQL UPDATE
+		
+		// rodar a query no banco
+		
+		// atualizar a instancia local
+		
+		// retornar a instancia local de NotaFiscal
+		return notaFiscalTemp;
 	}
 
 	@Override
@@ -140,19 +150,33 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 		NotaFiscal notaFiscal = null;
 		
 		// definir a query SQL SELECT
+		String sqlSelect = "select id, nome, conteudo from nfe where id = ?";
 		
 		// abrir a conexao
-		
-		// criar o PreparedStatment
-		
-		// passar o ID
-		
-		// executar
-		
-		// checa se existe registro
-		// se existir, cria uma nova instancia de NotaFiscal
-		// se nao existir, retorna nulo
- 		
+		try (Connection connection = this.dataSource.getConnection()) {
+			// criar o PreparedStatment
+			PreparedStatement psSelect = connection.prepareStatement(sqlSelect);
+			
+			// passar o ID
+			psSelect.setLong(1,  id);
+			
+			// executar
+			ResultSet resultSet = psSelect.executeQuery();
+			
+			// checa se existe registro
+			if (resultSet.next()) {
+				// se existir, cria uma nova instancia de NotaFiscal
+				notaFiscal = new NotaFiscal();
+				
+				// popular a instancia com os valores do banco...
+				notaFiscal.setId(resultSet.getLong("id"));
+				notaFiscal.setNomeArquivo(resultSet.getString("nome"));
+				notaFiscal.setConteudoArquivo(resultSet.getString("conteudo"));
+			}
+			// se nao existir, retorna nulo
+		} catch (SQLException e) {
+			System.err.println("Falha ao consular pelo ID: " + e.getMessage());
+		}
 		// retorna instancia de NotaFiscal
 		return notaFiscal;
 	}
