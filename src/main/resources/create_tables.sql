@@ -12,7 +12,7 @@ CREATE TABLE public.nfe
   id bigint NOT NULL DEFAULT nextval('nfe_id_seq'::regclass),
   nome character varying(255),
   conteudo text, 
-  data_hora_emissao timestamp withou time zone,
+  data_hora_emissao timestamp without time zone,
   CONSTRAINT id_pk PRIMARY KEY (id)
 )
 WITH (
