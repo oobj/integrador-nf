@@ -134,13 +134,35 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 		// criar uma instancia local de NotaFiscal
 		NotaFiscal notaFiscalTemp = null;
 		
-		
-		// definir a query SQL UPDATE
-		
-		// rodar a query no banco
-		
-		// atualizar a instancia local
-		
+		// checar se a nota de ID existe na base?
+		NotaFiscal notaFiscalNoBanco = buscarPeloId(notaFiscal.getId());
+		if (notaFiscalNoBanco != null) {
+			// se existir, rodar a query no banco
+			// criar conexao
+			try (Connection connection = this.dataSource.getConnection()) {
+				// definir a query SQL UPDATE
+				String sqlUpdate = "update nfe set nome = ?, conteudo = ? where id = ?";
+				
+				// criar o PreparedStatement
+				PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate);
+				
+				// substituir os valores de ?
+				psUpdate.setString(1, notaFiscal.getNomeArquivo());
+				psUpdate.setString(2, notaFiscal.getConteudoArquivo());
+				psUpdate.setLong(3, notaFiscal.getId());
+				
+				// executa a query
+				psUpdate.executeUpdate();
+				
+				// atualizar a instancia local
+				notaFiscalTemp = notaFiscal;
+			} catch (SQLException e) {
+				System.err.println("Falha ao atualizar a nota fiscal na base " + e.getMessage());
+			}
+		} else {
+			// se nao existir, printar um log dizendo que nao existe...
+			System.err.println("A nota a ser atualizada nao existe na base");
+		}
 		// retornar a instancia local de NotaFiscal
 		return notaFiscalTemp;
 	}
@@ -150,7 +172,7 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 		NotaFiscal notaFiscal = null;
 		
 		// definir a query SQL SELECT
-		String sqlSelect = "select id, nome, conteudo from nfe where id = ?";
+		String sqlSelect = "select id, nome, conteudo, data_hora_emissao from nfe where id = ?";
 		
 		// abrir a conexao
 		try (Connection connection = this.dataSource.getConnection()) {
@@ -172,6 +194,7 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 				notaFiscal.setId(resultSet.getLong("id"));
 				notaFiscal.setNomeArquivo(resultSet.getString("nome"));
 				notaFiscal.setConteudoArquivo(resultSet.getString("conteudo"));
+				notaFiscal.setDataHoraEmissao(resultSet.getTimestamp("data_hora_emissao"));
 			}
 			// se nao existir, retorna nulo
 		} catch (SQLException e) {

@@ -1,10 +1,13 @@
 package br.com.oobj.integrador;
 
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import br.com.oobj.integrador.dao.NotaFiscalDAO;
 import br.com.oobj.integrador.destino.Destino;
+import br.com.oobj.integrador.model.NotaFiscal;
 import br.com.oobj.integrador.origem.Origem;
 
 public class Main {
@@ -17,12 +20,39 @@ public class Main {
 		
 		System.out.println("Quantidade de registros: " + notaFiscalDAO.contar());
 		
-		notaFiscalDAO.removerNota(1L);
+		NotaFiscal notaFiscal = new NotaFiscal();
+		notaFiscal.setNomeArquivo("nova nota");
+		notaFiscal.setConteudoArquivo("novo conteudo");
+		// import java.util.Date;
+		// 'new Date()' retorna a hora local da maquina, no momento da execucao...
+		notaFiscal.setDataHoraEmissao(new Date());
+		notaFiscalDAO.inserirNotaFiscal(notaFiscal);
 		
 		System.out.println("Quantidade de registros: " + notaFiscalDAO.contar());
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		NotaFiscal notaFiscal = new NotaFiscal();
+//		notaFiscal.setId(2L);
+//		// nome: procNFE35130303555225000445550230002594841319344452AUT.xml
+//		notaFiscal.setNomeArquivo("novo nome.xml");
+//		notaFiscal.setConteudoArquivo("novo conteudo");
+//		
+//		notaFiscalDAO.atualizar(notaFiscal);
+//		System.out.println("Nota atualizada: " + notaFiscal);
 		
 		
 		

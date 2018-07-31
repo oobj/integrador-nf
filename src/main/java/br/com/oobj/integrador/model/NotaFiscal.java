@@ -1,10 +1,14 @@
 package br.com.oobj.integrador.model;
 
+import java.util.Date;
+
 public class NotaFiscal {
 
 	private Long id;
 	private String nomeArquivo;
 	private String conteudoArquivo;
+	// java.util.Date (NAO EH O SQL!)
+	private Date dataHoraEmissao;
 	
 	public Long getId() {
 		return id;
@@ -28,6 +32,21 @@ public class NotaFiscal {
 
 	public void setConteudoArquivo(String conteudoArquivo) {
 		this.conteudoArquivo = conteudoArquivo;
+	}
+
+	public Date getDataHoraEmissao() {
+		return dataHoraEmissao;
+	}
+
+	public void setDataHoraEmissao(Date dataHoraEmissao) {
+		this.dataHoraEmissao = dataHoraEmissao;
+	}
+	
+	@Override
+	public String toString() {
+		return "[nome: " + nomeArquivo + 
+				"; data/hora emissao: " + dataHoraEmissao +
+				"; conteudo: " + conteudoArquivo + "]";
 	}
 
 }
