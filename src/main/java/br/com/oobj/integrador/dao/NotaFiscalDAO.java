@@ -19,7 +19,7 @@ public interface NotaFiscalDAO {
 	int removerNota(Long id);
 	
 	// atualizar
-	NotaFiscal atualizar(NotaFiscal notaFiscal);
+	int atualizar(NotaFiscal notaFiscal);
 	
 	// buscar pelo ID
 	NotaFiscal buscarPeloId(Long id);

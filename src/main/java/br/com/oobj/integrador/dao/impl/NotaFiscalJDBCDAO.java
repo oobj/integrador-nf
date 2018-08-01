@@ -11,6 +11,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import br.com.oobj.integrador.dao.NotaFiscalDAO;
+import br.com.oobj.integrador.dao.impl.NotaFiscalSpringJDBCDAO.NotaFiscalRowMapper;
 import br.com.oobj.integrador.model.NotaFiscal;
 
 public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
@@ -86,6 +87,7 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 				Long id = resultSet.getLong("id");
 				String nome = resultSet.getString("nome");
 				String conteudo = resultSet.getString("conteudo");
+				// cade a data?
 				
 				NotaFiscal nf = new NotaFiscal();
 				nf.setId(resultSet.getLong("id"));
@@ -130,9 +132,9 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 	}
 
 	@Override
-	public NotaFiscal atualizar(NotaFiscal notaFiscal) {
+	public int atualizar(NotaFiscal notaFiscal) {
 		// criar uma instancia local de NotaFiscal
-		NotaFiscal notaFiscalTemp = null;
+		int linhasAfetadas = 0;
 		
 		// checar se a nota de ID existe na base?
 		NotaFiscal notaFiscalNoBanco = buscarPeloId(notaFiscal.getId());
@@ -152,10 +154,7 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 				psUpdate.setLong(3, notaFiscal.getId());
 				
 				// executa a query
-				psUpdate.executeUpdate();
-				
-				// atualizar a instancia local
-				notaFiscalTemp = notaFiscal;
+				linhasAfetadas = psUpdate.executeUpdate();
 			} catch (SQLException e) {
 				System.err.println("Falha ao atualizar a nota fiscal na base " + e.getMessage());
 			}
@@ -164,7 +163,7 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 			System.err.println("A nota a ser atualizada nao existe na base");
 		}
 		// retornar a instancia local de NotaFiscal
-		return notaFiscalTemp;
+		return linhasAfetadas;
 	}
 
 	@Override
@@ -204,6 +203,5 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 		return notaFiscal;
 	}
 
-	
-
 }
+
