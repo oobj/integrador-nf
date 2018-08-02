@@ -15,7 +15,7 @@
 		<constructor-arg name="notaFiscalDao" ref="notaFiscalDao" />
 	</bean>
 	
-	<bean id="notaFiscalDao" class="br.com.oobj.integrador.dao.impl.NotaFiscalSpringJDBCDAO" >
+	<bean id="notaFiscalDao" class="br.com.oobj.integrador.dao.impl.NotaFiscalNamedSpringJDBCDAO" >
 		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
 	</bean>
 	

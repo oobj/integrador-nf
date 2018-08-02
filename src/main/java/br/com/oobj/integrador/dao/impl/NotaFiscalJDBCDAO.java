@@ -11,7 +11,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import br.com.oobj.integrador.dao.NotaFiscalDAO;
-import br.com.oobj.integrador.dao.impl.NotaFiscalSpringJDBCDAO.NotaFiscalRowMapper;
 import br.com.oobj.integrador.model.NotaFiscal;
 
 public class NotaFiscalJDBCDAO implements NotaFiscalDAO {

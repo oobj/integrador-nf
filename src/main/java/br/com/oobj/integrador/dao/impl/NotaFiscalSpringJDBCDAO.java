@@ -61,7 +61,6 @@ public class NotaFiscalSpringJDBCDAO implements NotaFiscalDAO {
 	public NotaFiscal buscarPeloId(Long id) {
 		return jdbcTemplate.queryForObject("select * from nfe where id = ?", 
 				new Object[]{ id }, new NotaFiscalRowMapper());
-		
 	}
 	
 	private static class NotaFiscalRowMapper implements RowMapper<NotaFiscal> {
@@ -73,11 +72,9 @@ public class NotaFiscalSpringJDBCDAO implements NotaFiscalDAO {
 			nf.setNomeArquivo(resultSet.getString("nome"));
 			nf.setConteudoArquivo(resultSet.getString("conteudo"));
 			nf.setDataHoraEmissao(resultSet.getTimestamp("data_hora_emissao"));
-			// novas colunas...
 			
-			return nf;
+			return nf;	
 		}
-		
 	}
 
 }
