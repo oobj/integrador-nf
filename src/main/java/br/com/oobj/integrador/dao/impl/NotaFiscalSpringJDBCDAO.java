@@ -16,13 +16,14 @@ public class NotaFiscalSpringJDBCDAO implements NotaFiscalDAO {
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	public NotaFiscalSpringJDBCDAO(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
+//	public NotaFiscalSpringJDBCDAO(DataSource dataSource) {
+//		this.jdbcTemplate = new JdbcTemplate(dataSource);
+//	}
 
 	@Override
 	public void inserirNotaFiscal(NotaFiscal nota) {
-		String sqlInsert = "insert into nfe (nome, conteudo, data_hora_emissao) values (?, ?, ?)";
+		String sqlInsert = "insert into nfe (nome, conteudo, data_hora_emissao) "
+				+ "values (?, ?, ?)";
 		
 		int linhasAfetadas = jdbcTemplate.update(sqlInsert, 
 				nota.getNomeArquivo(), 
@@ -63,7 +64,7 @@ public class NotaFiscalSpringJDBCDAO implements NotaFiscalDAO {
 				new Object[]{ id }, new NotaFiscalRowMapper());
 	}
 	
-	private static class NotaFiscalRowMapper implements RowMapper<NotaFiscal> {
+	static class NotaFiscalRowMapper implements RowMapper<NotaFiscal> {
 		@Override
 		public NotaFiscal mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			NotaFiscal nf = new NotaFiscal();

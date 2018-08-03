@@ -1,25 +1,29 @@
 package br.com.oobj.integrador.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
 
 import br.com.oobj.integrador.dao.NotaFiscalDAO;
+import br.com.oobj.integrador.dao.impl.NotaFiscalSpringJDBCDAO.NotaFiscalRowMapper;
 import br.com.oobj.integrador.model.NotaFiscal;
 
+@Repository
 public class NotaFiscalNamedSpringJDBCDAO implements NotaFiscalDAO {
 
-	private JdbcTemplate jdbcTemplate;
 	private NamedParameterJdbcTemplate namedJdbcTemplate;
 	
+	@Autowired
 	public NotaFiscalNamedSpringJDBCDAO(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 	
@@ -41,37 +45,46 @@ public class NotaFiscalNamedSpringJDBCDAO implements NotaFiscalDAO {
 		int linhasAfetadas = namedJdbcTemplate.update(sqlInsert, namedParameters);
 		
 		System.out.println("Linhas afetadas : " + linhasAfetadas);
-
 	}
 
 	@Override
 	public int contar() {
-		// jdbcTemplate...?
 		return 0;
 	}
 
 	@Override
 	public List<NotaFiscal> listarTodas() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int removerNota(Long id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int atualizar(NotaFiscal notaFiscal) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sqlUpdate = "update nfe set nome = :nome, conteudo = :conteudo, data_hora_emissao = :data_hora where id = :id";
+
+		Map<String, Object> namedParameters = new HashMap<>();
+		namedParameters.put("nome", notaFiscal.getNomeArquivo());
+		namedParameters.put("conteudo", notaFiscal.getConteudoArquivo());
+		namedParameters.put("data_hora", notaFiscal.getDataHoraEmissao());
+		namedParameters.put("id", notaFiscal.getId());
+		
+//		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(notaFiscal);
+
+		return this.namedJdbcTemplate.update(sqlUpdate, namedParameters);
 	}
 
 	@Override
 	public NotaFiscal buscarPeloId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from nfe where id = :id";
+
+		SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+
+		return namedJdbcTemplate.queryForObject(sql, namedParameters, 
+				new NotaFiscalRowMapper());
 	}
 
 }

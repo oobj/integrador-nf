@@ -25,7 +25,6 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 	public void inserirNotaFiscal(NotaFiscal nota) {
 		try (Connection connection = this.dataSource.getConnection()) {
 			// Crio a query SQL de INSERT
-			// insert into nfe (nome, conteudo) values (?, ?)
 			// O '?' significa wildcard, ou seja, um valor que eu vou substituir depois...
 			String sqlInsert = "insert into nfe (nome, conteudo) values (?, ?)";
 			
@@ -42,7 +41,6 @@ public class NotaFiscalJDBCDAO implements NotaFiscalDAO {
 		} catch (SQLException e) {
 			System.err.println("Falha ao realizar o SQL INSERT");
 		}
-
 	}
 	
 	@Override
