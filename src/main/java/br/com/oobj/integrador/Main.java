@@ -1,26 +1,33 @@
 package br.com.oobj.integrador;
 
-import java.util.Date;
+import java.io.IOException;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jms.core.JmsTemplate;
 
-import br.com.oobj.integrador.dao.NotaFiscalDAO;
 import br.com.oobj.integrador.destino.Destino;
-import br.com.oobj.integrador.destino.impl.GravadorBancoDeDados;
-import br.com.oobj.integrador.model.NotaFiscal;
 import br.com.oobj.integrador.origem.Origem;
 
 public class Main {
 
-	public static void main(String[] args) {
+	@SuppressWarnings("unchecked")
+	public static void main(String[] args) throws IOException {
 		ApplicationContext contextoDoSpring = 
-				new ClassPathXmlApplicationContext("applicationContext.xml");
-				
-		Destino destino = contextoDoSpring.getBean(Destino.class);
-		System.out.println(destino.getClass());
+				new ClassPathXmlApplicationContext("rafadao.xml");
 		
-		NotaFiscalDAO notaFiscalDao = contextoDoSpring.getBean(NotaFiscalDAO.class);
+		IntegradorNotaFiscal integrador = 
+				contextoDoSpring.getBean(IntegradorNotaFiscal.class);
+
+		while (true) {
+			integrador.integraNotaFiscal();
+			
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
 		
@@ -31,6 +38,24 @@ public class Main {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
+		
+		
+//		Destino destino = contextoDoSpring.getBean(Destino.class);
+//		System.out.println(destino.getClass());
+//		
 //		NotaFiscalDAO notaFiscalDAO = contextoDoSpring.getBean(NotaFiscalDAO.class);
 //		System.out.println("Implementacao de notaFiscalDAO: " + notaFiscalDAO.getClass());
 //		

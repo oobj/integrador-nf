@@ -1,21 +1,20 @@
 package br.com.oobj.integrador;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.oobj.integrador.destino.Destino;
-import br.com.oobj.integrador.model.NotaFiscal;
 import br.com.oobj.integrador.origem.Origem;
 
+@Service
 public class IntegradorNotaFiscal {
 	
 	private Origem origem;
 	private Destino destino;
 	
-	public void setOrigem(Origem origem) {
+	@Autowired
+	public IntegradorNotaFiscal(Origem origem, Destino destino) {
 		this.origem = origem;
-	}
-	
-	public void setDestino(Destino destino) {
 		this.destino = destino;
 	}
 	

@@ -16,36 +16,21 @@
 				http://www.springframework.org/schema/integration
 				http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-	<context:component-scan
-		base-package="br.com.oobj.integrador" />
-		
+	<import resource="commons.xml" />
+	<import resource="jms.xml" />
+	<import resource="jdbc.xml" />
 
-<!-- 	<bean id="origem" -->
-<!-- 		class="br.com.oobj.integrador.origem.impl.LeitorDiretorio"> -->
-<!-- 		<constructor-arg name="path" value="O:/temp/xmls" /> -->
-<!-- 	</bean> -->
-
-	
-	
-	<bean id="jmsFactory" 
-		class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://localhost:61616"></property>
-	</bean>
-	
-	<bean id="jmsTemplate" 
-		class="org.springframework.jms.core.JmsTemplate">
-		<property name="connectionFactory" ref="jmsFactory"></property>
-	</bean>
-	
 	<bean id="origem"
 		class="br.com.oobj.integrador.origem.impl.ConsumidorJMS" />
-	
-	<bean id="jmsContainer" 
-		class="org.springframework.jms.listener.DefaultMessageListenerContainer" >
-		<property name="connectionFactory" ref="jmsFactory" />
-		<property name="destinationName" value="spring-teste" />
-		<property name="messageListener" ref="origem"></property>	
+
+	<bean id="destino"
+		class="br.com.oobj.integrador.destino.impl.GravadorBancoDeDados">
 	</bean>
 
-
+	<bean id="jmsContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsFactory" />
+		<property name="destinationName" value="spring-teste" />
+		<property name="messageListener" ref="origem"></property>
+	</bean>
 </beans>

@@ -4,31 +4,36 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import br.com.oobj.integrador.dao.NotaFiscalDAO;
 import br.com.oobj.integrador.destino.Destino;
 import br.com.oobj.integrador.model.NotaFiscal;
 
 @Service
-public class GravadorBancoDeDados implements Destino {
+public class EnfileiradorJms implements Destino {
 	
-	private NotaFiscalDAO notaFiscalDao;
+	private JmsTemplate jmsTemplate;
 	
 	@Autowired
-	public GravadorBancoDeDados(NotaFiscalDAO notaFiscalDao) {
-		this.notaFiscalDao = notaFiscalDao;
+	public EnfileiradorJms(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
 	}
-	
+
 	@Override
 	public void escreveRegistros(List<NotaFiscal> notas) {
-		System.out.println("Gravando registros no banco de dados...");
+		System.out.println("Enfileirando no JMS...");
 		
 		for (NotaFiscal nota : notas) {
-			System.out.println("Fazendo INSERT no banco para nota " + nota.getNomeArquivo());
+			System.out.println("Enfileiramento no JMS para nota " 
+						+ nota.getNomeArquivo());
 			
-			notaFiscalDao.inserirNotaFiscal(nota);
+			jmsTemplate.convertAndSend("spring-teste", 
+					nota.getConteudoArquivo());
+			
+			System.out.println("Nota enfileirada!");
 		}
+
 	}
 
 }

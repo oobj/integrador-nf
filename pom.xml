@@ -5,7 +5,7 @@
 	<groupId>br.com.oobj</groupId>
 	<artifactId>integrador-nf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<properties>
 		<spring.version>4.3.18.RELEASE</spring.version>
 	</properties>
@@ -26,6 +26,17 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-jms</artifactId>
+			<version>4.3.17.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-client</artifactId>
+			<version>5.8.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -33,18 +44,21 @@
 			<version>2.6</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-dbcp</groupId>
-		    <artifactId>commons-dbcp</artifactId>
-		    <version>1.4</version>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1212</version>
 		</dependency>
-		
-		
+
+
+
+
+
 	</dependencies>
 
 	<repositories>
@@ -56,18 +70,18 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<build>
 		<plugins>
-			 <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-compiler-plugin</artifactId>
-		        <version>3.7.0</version>
-		        <configuration>
-		          <source>${java.version}</source>
-		          <target>${java.version}</target>
-		        </configuration>
-		      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

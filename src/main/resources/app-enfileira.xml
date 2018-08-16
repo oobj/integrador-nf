@@ -16,36 +16,25 @@
 				http://www.springframework.org/schema/integration
 				http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-	<context:component-scan
-		base-package="br.com.oobj.integrador" />
-		
 
-<!-- 	<bean id="origem" -->
-<!-- 		class="br.com.oobj.integrador.origem.impl.LeitorDiretorio"> -->
-<!-- 		<constructor-arg name="path" value="O:/temp/xmls" /> -->
-<!-- 	</bean> -->
+	<import resource="commons.xml" />
+	<import resource="jms.xml" />
+	
+	<!-- Gambiarra -->
+	<import resource="jdbc.xml" />
 
-	
-	
-	<bean id="jmsFactory" 
-		class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://localhost:61616"></property>
-	</bean>
-	
-	<bean id="jmsTemplate" 
-		class="org.springframework.jms.core.JmsTemplate">
-		<property name="connectionFactory" ref="jmsFactory"></property>
-	</bean>
-	
 	<bean id="origem"
-		class="br.com.oobj.integrador.origem.impl.ConsumidorJMS" />
-	
-	<bean id="jmsContainer" 
-		class="org.springframework.jms.listener.DefaultMessageListenerContainer" >
-		<property name="connectionFactory" ref="jmsFactory" />
-		<property name="destinationName" value="spring-teste" />
-		<property name="messageListener" ref="origem"></property>	
+		class="br.com.oobj.integrador.origem.impl.LeitorDiretorio">
+		<constructor-arg name="path" value="O:/temp/xmls" />
 	</bean>
 
+	<bean id="destino" class="br.com.oobj.integrador.destino.impl.EnfileiradorJms">
+		<constructor-arg name="jmsTemplate" ref="jmsTemplate"></constructor-arg>
+	</bean>
+	
+	<!-- Gambiarra -->
+	<bean id="notaFiscalDao" class="br.com.oobj.integrador.dao.impl.NotaFiscalNamedSpringJDBCDAO" >
+		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
+	</bean>
 
 </beans>
